@@ -70,7 +70,7 @@ int surface_run(surface_cb_t * surface_cb) {
 	setpriority(PRIO_PROCESS, 0, android::PRIORITY_DISPLAY);
 	android::SurfaceComposerClient * client = new android::SurfaceComposerClient();
 	client->incStrong(&ref);
-	android::sp<android::IBinder> dtoken = android::SurfaceComposerClient::getInternalDisplayToken();
+	android::sp<android::IBinder> dtoken(android::SurfaceComposerClient::getInternalDisplayToken());
 	android::DisplayInfo dinfo;
 	android::status_t status = android::SurfaceComposerClient::getDisplayInfo(dtoken, &dinfo);
 	bool success = false;
