@@ -36,7 +36,7 @@ public:
 	SurfaceComposerClient();
 	virtual ~SurfaceComposerClient();
 
-	static sp<IBinder> getBuiltInDisplay(int32_t id);
+	static sp<IBinder> getInternalDisplayToken();
 	static status_t getDisplayInfo(const sp<IBinder> & display, DisplayInfo * info);
 
 private:
