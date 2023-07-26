@@ -7,4 +7,4 @@ sp<Surface> SurfaceControl::getSurface() const { return sp<Surface>(); }
 SurfaceComposerClient::SurfaceComposerClient() {}
 SurfaceComposerClient::~SurfaceComposerClient() {}
 sp<IBinder> SurfaceComposerClient::getInternalDisplayToken() { return sp<IBinder>(); }
-status_t SurfaceComposerClient::getDisplayInfo(const sp<IBinder> & display, DisplayInfo * info) { return 0; }
+status_t SurfaceComposerClient::getDisplayConfigs(const sp<IBinder> & display, Vector<DisplayInfo> *infos) { return 0; }

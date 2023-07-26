@@ -5,9 +5,6 @@
 #include <android/gui.h>
 #include <stdio.h>
 
-#define WIDTH 720
-#define HEIGHT 1600
-
 typedef android::sp<android::SurfaceControl> (* create_surface_t)(android::SurfaceComposerClient *,
 	android::String8 const &, uint32_t, uint32_t, int32_t, uint32_t, android::SurfaceControl *, uint32_t, uint32_t);
 typedef void (* set_layer_t)(android::SurfaceControl *, uint32_t);
@@ -73,19 +70,20 @@ int surface_run(surface_cb_t * surface_cb) {
 	setpriority(PRIO_PROCESS, 0, android::PRIORITY_DISPLAY);
 	android::SurfaceComposerClient * client = new android::SurfaceComposerClient();
 	client->incStrong(&ref);
-	/* 
 	android::sp<android::IBinder> dtoken(android::SurfaceComposerClient::getInternalDisplayToken());
 	Vector<android::DisplayInfo> configs;
-	android::DisplayInfo *current;
+	android::DisplayInfo dinfo;
 
 	android::status_t status = android::SurfaceComposerClient::getDisplayConfigs(dtoken, &configs);
-	*/
+	
+	/* Use first config available */
+	current = configs[0];
 
 	bool success = false;
 	
 	if (status == android::NO_ERROR) {
 		android::SurfaceControl * control = create_surface(client,
-			android::String8("SurfaceThread"), WIDTH, HEIGHT, 1, 0, nullptr, -1, -1).get();
+			android::String8("SurfaceThread"), current->w, current->h, 1, 0, nullptr, -1, -1).get();
 
 		if (set_layer) {
 			open_global_transaction();
