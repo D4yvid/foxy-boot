@@ -4,6 +4,8 @@
 #include <sys/resource.h>
 #include <android/gui.h>
 #include <stdio.h>
+#include <sys/types.h>
+#include <utils/SortedVector.h>
 
 typedef android::sp<android::SurfaceControl> (* create_surface_t)(android::SurfaceComposerClient *,
 	android::String8 const &, uint32_t, uint32_t, int32_t, uint32_t, android::SurfaceControl *, uint32_t, uint32_t);
@@ -71,14 +73,9 @@ int surface_run(surface_cb_t * surface_cb) {
 	android::SurfaceComposerClient * client = new android::SurfaceComposerClient();
 	client->incStrong(&ref);
 	android::sp<android::IBinder> dtoken(android::SurfaceComposerClient::getInternalDisplayToken());
-	Vector<android::DisplayInfo> configs;
-	android::DisplayInfo dinfo;
 
-	android::status_t status = android::SurfaceComposerClient::getDisplayConfigs(dtoken, &configs);
+	android::status_t status;
 	
-	/* Use first config available */
-	current = configs[0];
-
 	bool success = false;
 	
 	if (status == android::NO_ERROR) {
